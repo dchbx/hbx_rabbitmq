@@ -36,10 +36,6 @@ module Hbx
       @schema.validate(thing)
     end
 
-    def errors
-      @schema.errors
-    end
-
     def self.validator_for(namespace)
       Validator.new(SchemaRegistry.schema_location_for(namespace))
     end

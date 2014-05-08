@@ -21,7 +21,11 @@ given:
   let(:document) { Nokogiri::XML::Document.new("") }
   subject { Hbx::Validator.validator_for("http://dchealthlink.com/vocabularies/2.0/policy") }
 
-  it "should mark invalid a valid policy document" do
+  it "should not return valid for the document" do
     expect(subject.valid?(document)).to be_false
+  end
+
+  it "should return errors for validation of the document" do
+    expect(subject.validate(document)).not_to be_empty
   end
 end
