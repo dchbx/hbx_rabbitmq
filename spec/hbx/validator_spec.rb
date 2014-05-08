@@ -30,3 +30,26 @@ given:
     expect { subject.validate(document) }.to raise_error(Hbx::Errors::ValidationFailedError.new(["The document has no document element."]))
   end
 end
+
+describe Hbx::Validator do
+  let(:document_prefixed) { 
+<<XMLDOC
+<?xml version="1.0"?>
+     <pol:policy xmlns:pol="http://dchealthlink.com/vocabularies/2.0/policy"></pol:policy>
+XMLDOC
+ }
+  let(:document_no_prefix) { 
+<<XMLDOC
+     <policy xmlns="http://dchealthlink.com/vocabularies/2.0/policy"></policy>
+XMLDOC
+ }
+
+  subject { Hbx::Validator }
+
+  it "should find the proper schema for a ns-prefixed document" do
+    expect(subject.validator_for_document(document_prefixed)).not_to be_nil
+  end
+  it "should find the proper schema for a ns-unprefixed document" do
+    expect(subject.validator_for_document(document_no_prefix)).not_to be_nil
+  end
+end

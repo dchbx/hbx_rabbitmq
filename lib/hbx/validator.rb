@@ -38,5 +38,11 @@ module Hbx
     def self.validator_for(namespace)
       self.new(SchemaRegistry.schema_location_for(namespace))
     end
+
+    def self.validator_for_document(doc)
+      xml = Nokogiri::XML(doc)
+      ns = xml.root.namespace
+      self.validator_for(ns.href)
+    end
   end
 end
