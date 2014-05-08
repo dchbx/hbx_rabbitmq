@@ -12,7 +12,7 @@ module Hbx
     end
 
     def schema_location_for(namespace)
-      @schema_map[namespace]
+      @schema_map.fetch(namespace) { |k| raise Hbx::Errors::NoSuchSchemaError, k }
     end
 
     def self.schema_location_for(namespace)

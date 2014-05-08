@@ -4,7 +4,7 @@ describe Hbx::TransformRegistry do
 
   describe "given a bogus namespace" do
     it "should raise an error describing the missing transform" do
-      expect { Hbx::TransformRegistry.transform_location_for("") }.to raise_error(Hbx::Errors::NoSuchTransformError)
+      expect { Hbx::TransformRegistry.transform_location_for("abeee") }.to raise_error(Hbx::Errors::NoSuchTransformError, "abeee")
     end
   end
 
