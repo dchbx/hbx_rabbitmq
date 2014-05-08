@@ -37,7 +37,7 @@ module Hbx
     end
 
     def self.validator_for(namespace)
-      Validator.new(SchemaRegistry.schema_location_for(namespace))
+      self.new(SchemaRegistry.schema_location_for(namespace))
     end
   end
 end
