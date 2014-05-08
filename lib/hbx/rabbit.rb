@@ -15,9 +15,33 @@ module Hbx
         @rabbit_configuration['connection']
       end
 
+      def exchange_name
+        @rabbit_configuration['exchange_name']
+      end
+
+      def environment
+        @rabbit_configuration['environment'] || "dev"
+      end
+
       def self.connection
         self.instance.connection
       end
+
+      def self.exchange_name
+        self.instance.exchange_name
+      end
+
+      def self.environment
+        self.instance.environment
+      end
+    end
+
+    def self.environment
+      Configuration.environment
+    end
+
+    def self.exchange_name
+      Configuration.exchange_name
     end
 
     def self.connection_settings
