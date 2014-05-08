@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Dan Thomas (DC Department of Human Services DCAS Project) -->
+<xs:schema xmlns="http://dchealthlink.com/vocabularies/2.0/organization" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:indv="http://dchealthlink.com/vocabularies/2.0/individual" xmlns:bt="http://dchealthlink.com/vocabularies/2.0/base_types" targetNamespace="http://dchealthlink.com/vocabularies/2.0/organization" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.2">
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/base_types" schemaLocation="base_types.xsd"/>
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/individual" schemaLocation="individual.xsd"/>
+	<xs:element name="organization">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="OrganizationType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="abbreviation" type="xs:string" minOccurs="0"/>
+			<xs:element name="fein" type="bt:FederalTaxIdType" minOccurs="0"/>
+			<xs:element name="address" type="bt:AddressType"/>
+			<xs:element name="phone" type="bt:PhoneType"/>
+			<xs:element name="email" type="bt:EmailType" minOccurs="0"/>
+			<xs:element name="website" type="xs:anyURI" minOccurs="0"/>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CarrierType"/>
+	<xs:complexType name="EmployerType">
+		<xs:sequence>
+			<xs:element name="demographics" type="OrganizationType"/>
+			<xs:element name="carrier_employer_group_id" type="xs:string"/>
+			<xs:element name="employees" type="indv:EmployeeRoleType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BrokerType">
+		<xs:sequence>
+			<xs:element name="npn_id"/>
+			<xs:element name="demographics" type="OrganizationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HbxType">
+		<xs:annotation>
+			<xs:documentation>Health Benefit Exchange organization</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="CarrierReferenceType">
+		<xs:sequence>
+			<xs:element name="carrier_name" type="xs:string"/>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

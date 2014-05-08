@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Dan Thomas (DC Department of Human Services DCAS Project) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:element name="process">
+		<xs:annotation>
+			<xs:documentation>Business process supporting DCHBX operations</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="operation_type" type="OperationType"/>
+				<xs:element name="payload" type="PayloadType"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="OperationCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="premium_payment"/>
+			<xs:enumeration value="benefit_enrollment"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OperationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="cancel_group"/>
+			<xs:enumeration value="terminate_group"/>
+			<xs:enumeration value="add_member"/>
+			<xs:enumeration value="initial_enrollment"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="TaskType"/>
+	<xs:complexType name="PayloadType">
+		<xs:sequence>
+			<xs:element name="type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="change"/>
+						<xs:enumeration value="add"/>
+						<xs:enumeration value="cancel"/>
+						<xs:enumeration value="terminate"/>
+						<xs:enumeration value="reinstate"/>
+						<xs:enumeration value="audit"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="reason">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="birth"/>
+						<xs:enumeration value="adoption"/>
+						<xs:enumeration value="death"/>
+						<xs:enumeration value="marraige"/>
+						<xs:enumeration value="divorce"/>
+						<xs:enumeration value="initial_enrollment"/>
+						<xs:enumeration value="termination_of_benefits"/>
+						<xs:enumeration value="plan_change"/>
+						<xs:enumeration value="change_of_location"/>
+						<xs:enumeration value="change_in_identifying_data_elements"/>
+						<xs:enumeration value="reenrollment"/>
+						<xs:enumeration value="non_payment"/>
+						<xs:enumeration value="no_reason_given"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="affected_members">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="member_id" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="effective_date" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

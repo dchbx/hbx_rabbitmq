@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Dan Thomas (DC Department of Human Services DCAS Project) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns="http://dchealthlink.com/vocabularies/2.0/plan" xmlns:bt="http://dchealthlink.com/vocabularies/2.0/base_types" xmlns:org="http://dchealthlink.com/vocabularies/2.0/organization" targetNamespace="http://dchealthlink.com/vocabularies/2.0/plan" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="0.2">
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/base_types" schemaLocation="base_types.xsd"/>
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/organization" schemaLocation="organization.xsd"/>
+	<xs:element name="plan">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="PlanType"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="PlanType">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="is_dental_only" type="xs:boolean"/>
+			<xs:element name="issuer" type="IssuerType"/>
+			<xs:element name="market">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="individual"/>
+						<xs:enumeration value="shop"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="coverages" type="CoverageType" maxOccurs="unbounded"/>
+			<xs:element name="cost_structure" type="CostStructureType"/>
+			<xs:element name="maximums">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="MaximumType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="deductables" type="DeductableType"/>
+			<xs:element name="metadata" type="MetadataType"/>
+			<xs:element name="rates" type="RateType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RateType">
+		<xs:sequence>
+			<xs:element name="age"/>
+			<xs:element name="effective_date"/>
+			<xs:element name="expire_date" type="bt:SimpleDateType"/>
+			<xs:element name="rate" type="bt:CurrencyType"/>
+			<xs:element name="rating_area"/>
+			<xs:element name="tobacco_use"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostStructureType">
+		<xs:sequence>
+			<xs:element name="first_tier_utilization" type="xs:int"/>
+			<xs:element name="issuer_actuarial_value" type="xs:float"/>
+			<xs:element name="multiple_in_network_tiers" type="xs:boolean"/>
+			<xs:element name="sbc_scenario">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="having_diabetes"/>
+						<xs:element name="having_a_baby"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="custom_scenarios" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="name">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="networks" type="CostByNetworkType"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoverageType">
+		<xs:sequence>
+			<xs:element name="name">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="is_covered" type="xs:boolean"/>
+						<xs:element name="ehb_variance_reason" type="xs:string" minOccurs="0"/>
+						<xs:element name="excluded_from_in_network_moop" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="excluded_from_out_of_network_moop" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="exclusions" type="xs:string" minOccurs="0"/>
+						<xs:element name="quantitative_limit" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="subject_to_deductable_t1" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="subject_to_deductable_t2" type="xs:boolean" minOccurs="0"/>
+						<xs:element name="costs" type="CoverageCostType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeductableType">
+		<xs:sequence>
+			<xs:element name="name"/>
+			<xs:element name="networks" type="CostByNetworkType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaximumType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="networks" type="CostByNetworkType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MetadataType">
+		<xs:sequence>
+			<xs:element name="brochure_url" type="xs:anyURI"/>
+			<xs:element name="child_only_offering" type="xs:string"/>
+			<xs:element name="disease_management_program_offered" type="xs:string"/>
+			<xs:element name="formulary_id" type="xs:string"/>
+			<xs:element name="hios_plan_id" type="xs:string"/>
+			<xs:element name="hsa_eligible" type="xs:boolean"/>
+			<xs:element name="limited_cost_sharing_plan_variation_est_adv_payment" type="xs:int"/>
+			<xs:element name="metalic_level">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="platinum"/>
+						<xs:enumeration value="gold"/>
+						<xs:enumeration value="silver"/>
+						<xs:enumeration value="bronze"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="national_network" type="xs:boolean"/>
+			<xs:element name="network_id" type="xs:string" default='"DCN001"'/>
+			<xs:element name="new_or_existing_plan">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="new"/>
+						<xs:enumeration value="existing"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="notice_required_for_pregnancy" type="xs:boolean"/>
+			<xs:element name="out_of_country_coverage" type="xs:boolean"/>
+			<xs:element name="out_of_service_area_coverage" type="xs:boolean"/>
+			<xs:element name="out_of_service_area_description" type="xs:string"/>
+			<xs:element name="plan_effective_date" type="bt:SimpleDateType"/>
+			<xs:element name="plan_type" type="xs:string"/>
+			<xs:element name="qhp" type="xs:string"/>
+			<xs:element name="referral_required_for_specialist" type="xs:boolean"/>
+			<xs:element name="sbc_url" type="xs:anyURI"/>
+			<xs:element name="service_area_Id" type="xs:string" default='"DCS001"'/>
+			<xs:element name="unique_plan_design" type="xs:boolean"/>
+			<xs:element name="wellness_program_offered" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IssuerType">
+		<xs:sequence>
+			<xs:element name="name"/>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+			<xs:element name="fein" type="bt:FederalTaxIdType"/>
+			<xs:element name="issuer_state" default='"DC"'/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoverageCostType">
+		<xs:sequence>
+			<xs:element name="coinsurance" type="CostByNetworkType"/>
+			<xs:element name="copay" type="CostByNetworkType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CostByNetworkType">
+		<xs:sequence>
+			<xs:element name="in_network_tier" type="MaxCostByCoverageCategoryType"/>
+			<xs:element name="out_of_network" type="MaxCostByCoverageCategoryType"/>
+			<xs:element name="in_network_tier_2" type="MaxCostByCoverageCategoryType" minOccurs="0"/>
+			<xs:element name="combined_in_out_network" type="MaxCostByCoverageCategoryType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProcedureType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="costs" type="CostByNetworkType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaxCostByCoverageCategoryType">
+		<xs:sequence>
+			<xs:element name="family" type="xs:integer"/>
+			<xs:element name="individual" type="xs:integer"/>
+			<xs:element name="default_coinsurance" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Deductables"/>
+	<xs:complexType name="PlanReferenceType">
+		<xs:sequence>
+			<xs:element name="hios_plan_id" type="xs:string"/>
+			<xs:element name="coverage_type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="health"/>
+						<xs:enumeration value="dental"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+			<xs:element name="csr" type="xs:float"/>
+			<xs:element name="ehb" type="xs:float"/>
+			<xs:element name="carrier" type="org:CarrierReferenceType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

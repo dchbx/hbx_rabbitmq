@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Dan Thomas (DC Department of Human Services DCAS Project) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" xmlns="http://dchealthlink.com/vocabularies/2.0/policy" xmlns:bt="http://dchealthlink.com/vocabularies/2.0/base_types" xmlns:indv="http://dchealthlink.com/vocabularies/2.0/individual" xmlns:org="http://dchealthlink.com/vocabularies/2.0/organization" xmlns:plan="http://dchealthlink.com/vocabularies/2.0/plan" targetNamespace="http://dchealthlink.com/vocabularies/2.0/policy" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="0.2">
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/base_types" schemaLocation="base_types.xsd"/>
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/individual" schemaLocation="individual.xsd"/>
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/organization" schemaLocation="organization.xsd"/>
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/plan" schemaLocation="plan.xsd"/>
+	<xs:element name="policy">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="PolicyType">
+		<xs:sequence>
+			<xs:element name="enrollees" type="indv:EnrolleeType" maxOccurs="unbounded"/>
+			<xs:element name="premium_amount_total"/>
+			<xs:element name="broker" type="org:BrokerType" minOccurs="0"/>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+			<xs:element name="total_responsible_amount" type="bt:CurrencyType"/>
+			<xs:element name="total_employer_responsible_amount" type="bt:CurrencyType" minOccurs="0"/>
+			<xs:element name="carrier_to_bill" type="xs:boolean"/>
+			<xs:element name="plan" type="plan:PlanReferenceType"/>
+			<xs:element name="allocated_aptc" type="bt:CurrencyType"/>
+			<xs:element name="elected_aptc_percent" type="xs:float"/>
+			<xs:element name="applied_aptc" type="bt:CurrencyType"/>
+			<xs:element name="request_submit_timestamp" type="bt:SimpleDateType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

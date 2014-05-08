@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://dchealthlink.com/vocabularies/2.0/individual/events"
+           xmlns:ind="http://dchealthlink.com/vocabularies/2.0/individual"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:bt="http://dchealthlink.com/vocabularies/2.0/base_types"
+           targetNamespace="http://dchealthlink.com/vocabularies/2.0/individual/events"
+           elementFormDefault="qualified" version="2.0">
+  <xs:import namespace="http://dchealthlink.com/vocabularies/2.0/base_types" schemaLocation="base_types.xsd"/>
+  <xs:import namespace="http://dchealthlink.com/vocabularies/2.0/individual" schemaLocation="individual.xsd"/>
+  
+  <xs:simpleType name="UpdateKindType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="name_change"/>
+      <xs:enumeration value="address_change"/>
+      <xs:enumeration value="email_change"/>
+      <xs:enumeration value="phone_change"/>
+      <xs:enumeration value="employment_change"/>
+      <xs:enumeration value="member_change"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="PreviousMemberType">
+    <xs:sequence>
+      <xs:group ref="bt:HbxIdentifierGroup"/>
+      <xs:element name="gender" type="ind:GenderType"/>
+      <xs:element name="dob" type="bt:SimpleDateType"/>
+      <xs:element name="ssn" type="bt:FederalTaxIdType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="PreviousIndividualType">
+    <xs:sequence>
+      <xs:element name="name_prefix" type="xs:string" minOccurs="0"/>
+      <xs:element name="name_first" type="xs:string"/>
+      <xs:element name="name_middle" type="xs:string" minOccurs="0"/>
+      <xs:element name="name_last" type="xs:string"/>
+      <xs:element name="name_suffix" type="xs:string" minOccurs="0"/>
+      <xs:element name="name_full" type="xs:string" minOccurs="0"/>
+      <xs:element name="member_change" minOccurs="0" maxOccurs="unbounded" type="PreviousMemberType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UpdateType">
+    <xs:sequence>
+      <xs:element name="change_type" type="UpdateKindType" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element ref="ind:individual"/>
+      <xs:element name="previous_information" type="PreviousIndividualType"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="update" type="UpdateType"/>
+</xs:schema>

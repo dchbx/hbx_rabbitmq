@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (http://www.altova.com) by Dan Thomas (DC Department of Human Services DCAS Project) -->
+<xs:schema xmlns="http://dchealthlink.com/vocabularies/2.0/individual" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bt="http://dchealthlink.com/vocabularies/2.0/base_types" targetNamespace="http://dchealthlink.com/vocabularies/2.0/individual" elementFormDefault="qualified" version="2.0">
+	<xs:import namespace="http://dchealthlink.com/vocabularies/2.0/base_types" schemaLocation="base_types.xsd"/>
+				<xs:simpleType name="GenderType">
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="male"/>
+						<xs:enumeration value="female"/>
+						<xs:enumeration value="unknown"/>
+					</xs:restriction>
+				</xs:simpleType>  
+  
+	<xs:complexType name="MemberRoleType">
+		<xs:sequence>
+			<xs:element name="gender" type="GenderType"/>
+			<xs:element name="dob" type="bt:SimpleDateType"/>
+			<xs:element name="ssn" type="bt:FederalTaxIdType" minOccurs="0"/>
+			<xs:element name="tobacco_use" default="unknown">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="unknown"/>
+						<xs:enumeration value=""/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="language" minOccurs="0"/>
+			<xs:group ref="bt:HbxIdentifierGroup"/>
+			<xs:element name="carrier_member_id" type="xs:string"/>
+			<xs:element name="person" type="bt:PersonType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EmployeeRoleType">
+		<xs:sequence>
+			<xs:element name="hbx_employer_id" type="xs:string"/>
+			<xs:element name="hbx_employer_uri" type="xs:anyURI"/>
+			<xs:element name="employment_status" minOccurs="0">
+				<xs:simpleType>
+					<xs:annotation>
+						<xs:documentation>Required for subscriber. For SHOP market, use employment
+                  status code. For individual market, use only AC=Active or
+                  TE=Terminated.</xs:documentation>
+					</xs:annotation>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="active"/>
+						<xs:enumeration value="active military overseas"/>
+						<xs:enumeration value="active military usa"/>
+						<xs:enumeration value="full time"/>
+						<xs:enumeration value="leave of absence"/>
+						<xs:enumeration value="part time"/>
+						<xs:enumeration value="retired"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="eligibility_start_date" type="bt:SimpleDateType" minOccurs="0"/>
+			<xs:element name="eligibility_end_date" type="bt:SimpleDateType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ResponsiblePartyRoleType">
+		<xs:sequence>
+			<xs:element name="entity_identifier">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="case manager"/>
+						<xs:enumeration value="key person"/>
+						<xs:enumeration value="parent"/>
+						<xs:enumeration value="responsible party"/>
+						<xs:enumeration value="guardian"/>
+						<xs:enumeration value="ex-spouse"/>
+						<xs:enumeration value="significant other"/>
+						<xs:enumeration value="legal representative"/>
+						<xs:enumeration value="power of attorney"/>
+						<xs:enumeration value="other insured"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="entity_type" default='"1"'>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value='"1"'/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="hbx_organization_uri" type="xs:anyURI" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IndividualType">
+		<xs:sequence>
+			<xs:element name="authority_hbx_member_uri" type="xs:anyURI"/>
+			<xs:element name="authority_hbx_member_id" type="xs:string"/>
+			<xs:element name="person" type="bt:PersonType"/>
+			<xs:element name="members" type="MemberRoleType"/>
+			<xs:element name="jobs" type="EmployeeRoleType"/>
+			<xs:element name="responsibilities" type="ResponsiblePartyRoleType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="members" type="MemberRoleType"/>
+	<xs:complexType name="EnrolleeType">
+		<xs:sequence>
+			<xs:element name="premium_amount" type="bt:CurrencyType"/>
+			<xs:element name="disabled" type="xs:boolean"/>
+			<xs:element name="benefit_status">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="active"/>
+						<xs:enumeration value="cobra"/>
+						<xs:enumeration value="surviing insured"/>
+						<xs:enumeration value="tefra"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="employment_status" default="active">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="active"/>
+						<xs:enumeration value="full time"/>
+						<xs:enumeration value="part time"/>
+						<xs:enumeration value="retired"/>
+						<xs:enumeration value="terminated"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="relationship">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="self"/>
+						<xs:enumeration value="spouse"/>
+						<xs:enumeration value="child"/>
+						<xs:enumeration value="ward"/>
+						<xs:enumeration value="life partner"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="carrier_member_id" type="xs:string"/>
+			<xs:element name="carrier_policy_id"/>
+			<xs:element name="coverage_start_date" type="bt:SimpleDateType"/>
+			<xs:element name="coverage_end_date" type="bt:CurrencyType"/>
+			<xs:element name="coverage_status"/>
+			<xs:element name="member" type="MemberRoleType"/>
+		</xs:sequence>
+	</xs:complexType>
+  <xs:element name="Individual" type="IndividualType"/>
+</xs:schema>
