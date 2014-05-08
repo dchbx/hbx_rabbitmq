@@ -5,7 +5,7 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 #
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "lib", "init"))
+require File.join(File.dirname(__FILE__), "..", "lib", "hbx")
 Bundler.require(:test)
 
 RSpec.configure do |config|
