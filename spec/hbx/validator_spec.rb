@@ -26,11 +26,7 @@ given:
   let(:document) { Nokogiri::XML::Document.new("") }
   subject { Hbx::Validator.validator_for("http://dchealthlink.com/vocabularies/2.0/policy") }
 
-  it "should not return valid for the document" do
-    expect(subject.valid?(document)).to be_false
-  end
-
-  it "should return errors for validation of the document" do
-    expect(subject.validate(document)).not_to be_empty
+  it "should raise a validation failed error on validation" do
+    expect { subject.validate(document) }.to raise_error(Hbx::Errors::ValidationFailedError.new(["The document has no document element."]))
   end
 end

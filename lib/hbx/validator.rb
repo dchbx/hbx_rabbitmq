@@ -28,12 +28,11 @@ module Hbx
       @schema = Nokogiri::XML::Schema.new(raw_schema)
     end
 
-    def valid?(thing)
-      @schema.valid?(thing)
-    end
-
     def validate(thing)
-      @schema.validate(thing)
+      errors = @schema.validate(thing)
+      if errors.any?
+        raise Hbx::Errors::ValidationFailedError.new(errors.map(&:message))
+      end
     end
 
     def self.validator_for(namespace)
