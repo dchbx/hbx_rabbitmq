@@ -27,12 +27,13 @@ module Hbx
       @transform = Nokogiri::XSLT(raw_transform)
     end
 
-    def transform(document, params = [])
+    def transform(doc_string, params = [])
+      doc = Nokogiri::XML(doc_string)
       safe_params = Nokogiri::XSLT.quote_params(params)
-      @transform.transform(document, safe_params).to_xml(:indent => 2)
+      @transform.transform(doc, safe_params).to_xml(:indent => 2)
     end
 
-    def self.transform_for(namespace)
+    def self.transformer_for(namespace)
       self.new(TransformRegistry.transform_location_for(namespace))
     end
   end
