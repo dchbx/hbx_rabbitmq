@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), "init")
+require File.join(File.dirname(__FILE__), "hbx", "errors")
 require File.join(File.dirname(__FILE__), "hbx", "validator")
 require File.join(File.dirname(__FILE__), "hbx", "transformer")
 require File.join(File.dirname(__FILE__), "hbx", "transformer")

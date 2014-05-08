@@ -5,5 +5,8 @@ module Hbx
 
     class NoSuchTransformError < StandardError
     end
+
+    class NoSuchSchemaError < StandardError
+    end
   end
 end

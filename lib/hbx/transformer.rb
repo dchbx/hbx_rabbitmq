@@ -12,7 +12,7 @@ module Hbx
     end
 
     def transform_location_for(uri)
-      @transform_map[uri]
+      @transform_map.fetch(uri) { |k| raise Hbx::Errors::NoSuchTransformError, k }
     end
 
     def self.transform_location_for(uri)
