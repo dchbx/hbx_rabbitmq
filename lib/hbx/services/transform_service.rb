@@ -13,7 +13,7 @@ module Hbx
         end
 
         def parse_exchange_type(ex_name)
-          if ex.nil?
+          if ex_name.nil?
             return :default
           end
           ex_name.split(".")[3].to_sym
@@ -44,11 +44,16 @@ module Hbx
 
       def register(chan)
         chan.prefetch(1)
+        ex = chan.direct(exchange_name)
         q = chan.queue(queue_name, :persistent => true)
+        q.bind(ex, :routing_key => binding_key)
         q.subscribe(:block => true, :ack => true) do |di, prop, pay|
           begin
             message(chan, di, prop, pay)
           rescue => e
+            $stderr.puts e.message
+            $stderr.puts e.inspect
+            $stderr.puts e.backtrace.join("\n")
             throw :terminate, e
           end
         end
@@ -58,8 +63,16 @@ module Hbx
         Hbx::Rabbit.exchange_name + "." + Hbx::Rabbit.environment + ".q.direct.xml.transform"
       end
 
+      def binding_key
+        "xml.transform"
+      end
+
+      def exchange_name
+        Hbx::Rabbit.exchange_name + "." + Hbx::Rabbit.environment + ".e.direct.xml"
+      end
+
       def message(chan, delivery_info, properties, payload)
-        response_info = extract_response_information
+        response_info = extract_response_information(properties)
         transformer = nil
         reply_exchange = response_info.get_reply_exchange(chan)
         begin
